@@ -193,6 +193,7 @@ a{color:inherit}
 .d-year{font-family:var(--serif);font-style:italic;font-size:1.6rem}
 .d-mono{--s:58px;margin-top:1.2rem;opacity:0;transform:translateY(8px);transition:opacity 1.2s var(--ease) .9s,transform 1.2s var(--ease) .9s;color:#403532}
 .scratch-card.settled .d-mono{opacity:1;transform:none}
+.date-under .seal{color:#403532}
 .scratch-hint{margin-top:1.6rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;transition:opacity .8s}
 .scratch-hint p{margin:0;font-size:.85rem;color:var(--ink-soft)}
 .after-reveal{margin-top:1.6rem;opacity:0;transform:translateY(10px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
@@ -252,7 +253,7 @@ a{color:inherit}
   .thread{left:.9rem}
   .chapter{grid-template-columns:1fr;gap:.8rem;padding:2.5rem 0 2.5rem 2.75rem;min-height:auto}
   .chapter::before{left:.9rem;top:3.4rem}
-  .ch-num,.chapter:nth-child(even) .ch-num{order:0;text-align:left;font-size:clamp(3.6rem,18vw,5rem);line-height:1;margin-bottom:.4rem}
+  .ch-num,.chapter:nth-child(even) .ch-num{order:0;text-align:left;font-size:clamp(3.6rem,18vw,5rem);line-height:1;margin-bottom:.4rem;transform:none}
   .chapter:nth-child(even) .ch-body{order:1;text-align:left;justify-self:start}
   .chapter.final{padding-left:0;padding-top:5rem}
   .chapter.final::before{left:.9rem}
