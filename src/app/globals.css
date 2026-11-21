@@ -244,7 +244,7 @@ a{color:inherit}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(138,160,184,.5)}100%{box-shadow:0 0 0 12px rgba(138,160,184,0)}}
 .years{font-family:var(--serif);font-size:clamp(4rem,3rem + 6vw,8rem);line-height:1;display:block;margin:.4rem 0 .2rem;font-variant-numeric:lining-nums}
 .chapter.final{grid-template-columns:1fr;text-align:center;min-height:80vh;padding-top:6rem}
-.chapter.final::before{top:3rem}
+.chapter.final::before{display:none}
 .chapter.final .ch-body{max-width:none;justify-self:center;text-align:center;background:var(--bg);padding:2rem 0;position:relative}
 .final-big{font-family:var(--serif);font-size:clamp(2.6rem,1.5rem + 6vw,6rem);line-height:1.02;margin:0 0 2rem;font-weight:400}
 .final-names{font-family:var(--serif);font-size:clamp(1.6rem,1.2rem + 2vw,2.6rem);margin:0}
