@@ -119,7 +119,7 @@ export const wedding = {
   },
 
   // Optional recorded track in /public/audio, e.g. '/audio/prayas-theme.mp3'. Empty = built-in generated score.
-  music: { src: '/audio/Blue-Yung_Kai.mp3' },
+  music: { src: '/audio/Blue-Yung-Kai.mp3' },
 };
 
 export type Wedding = typeof wedding;
