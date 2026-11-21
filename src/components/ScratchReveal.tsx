@@ -11,7 +11,7 @@ const REVEAL_AT = .5; // fraction scratched before the foil dissolves
 
 /**
  * Rose-gold scratch card. Sequence on reveal:
- * foil dissolves → date settles → 0.5s pause → one petal → gentle shower → gold motes + music swell → rest unlocks.
+ * foil dissolves → brief beat → petals fade in and shower → gold motes + music swell → rest unlocks.
  */
 export function ScratchReveal({ active, onRevealed }: { active: boolean; onRevealed: () => void }) {
   const { fx, music, reduced } = useInvitation();
@@ -91,14 +91,14 @@ export function ScratchReveal({ active, onRevealed }: { active: boolean; onRevea
     const t = (ms: number) => wait(reduced ? 0 : ms);
     setState('revealed');
     const r = card.current!.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    await t(950);                                   // foil dissolves, date settles
-    await t(500);                                   // the pause — an emotional beat
-    fx.current?.firstPetal();                       // one petal, alone
-    await t(700);
-    fx.current?.emit('petal', 5200, p => p < .25 ? 4 + p * 60 : 19 * Math.pow(1 - p, 2.2)); // shower that calms
+    await t(550);                                   // foil dissolves, date appears
+    await t(250);                                   // a brief beat
+    fx.current?.firstPetal();                       // first petal
+    fx.current?.burst(12);                          // petals fade in across the screen right away
+    fx.current?.emit('petal', 5000, p => p < .3 ? 14 : 14 * Math.pow((1 - p) / .7, 2)); // shower that calms
     music.current?.setLevel(1);                     // strings + santoor enter
     setState('settled');
-    await t(450);
+    await t(300);
     fx.current?.sparkle(cx, cy, 26);
     fx.current?.emit('petal', 30000, () => .2);     // a few stragglers keep drifting
     await t(900);

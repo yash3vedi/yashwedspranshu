@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { wedding } from '@/config/wedding';
 import { Monogram, Names } from './Monogram';
 import { Motif } from './Motif';
@@ -39,7 +38,8 @@ export function OpeningExperience({ onEnter, onOpened }: { onEnter: () => void; 
       <div className="arch">
         <div className="op-step" style={{ ['--d' as string]: '.2s' }}>
           {opening.ganeshaArt
-            ? <Image className="ganesha-art" src={opening.ganeshaArt} alt="Lord Ganesha" width={64} height={64} priority />
+            ? <div className="ganesha-art" role="img" aria-label="Lord Ganesha"
+                style={{ WebkitMaskImage: `url(${opening.ganeshaArt})`, maskImage: `url(${opening.ganeshaArt})` }} />
             : <div className="op-lotus"><Motif name="lotus" /></div>}
         </div>
         <p className="shloka op-step" style={{ ['--d' as string]: '.4s' }} lang="sa">{opening.shloka}</p>

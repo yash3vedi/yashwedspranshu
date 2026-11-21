@@ -1,6 +1,6 @@
 # Yash ♥ Pranshu · #PraYas
 
-A cinematic digital wedding invitation for 8–10 December 2026, at Shri Niketan Marriage Garden, Indore.
+A cinematic digital wedding invitation for 8–9 December 2026, at Shri Niketan Marriage Garden, Indore.
 
 It is built with **Next.js 15, React 19 and TypeScript**. Fonts are self-hosted, so they always load and nothing depends on Google Fonts. It exports as a static site that runs on Vercel, or on any host.
 
@@ -67,6 +67,7 @@ src/
 │   ├── ScratchReveal        Rose-gold scratch card + reveal sequence
 │   ├── DateReveal           09 · December · 2026 under the foil
 │   ├── Countdown            IST countdown
+│   ├── FamiliesSection      "Together with their families" invitation card
 │   ├── StoryTimeline        The 7 story chapters + gold thread
 │   ├── PhotoGallery         Polaroids
 │   ├── EventTimeline        Days of celebrations
@@ -82,7 +83,7 @@ src/
     ├── score.ts             Generated music, or recorded-track player
     └── hooks.ts             Scroll reveals, reduced-motion detection
 public/
-├── images/                  Your photos + Ganesha art go here
+├── images/                  Photos, Ganesh ji artwork (ganesha.png), hanging diyas
 └── audio/                   Optional music file goes here
 ```
 
@@ -105,6 +106,7 @@ All of these are in **`src/config/wedding.ts`**.
 | What the scratch card reveals | `date.day`, `date.month`, `date.year` |
 | Lines under the revealed date | `date.revealLine`, `date.revealSmall` |
 | Countdown moment | `date.countdownTarget` (keep `+05:30` = IST) |
+| Families page (parents' names, invitation wording) | `families` |
 | Message when the countdown ends | `date.doneMessage` |
 | Story chapters | `story` |
 | Line under "Our story" | `storySub` |
@@ -153,15 +155,40 @@ photos: [
 | Format | **JPG** (quality ~80) or **WebP** |
 | File size | **under 350 KB** each; compress at https://squoosh.app |
 
-### Ganesha artwork
+### Ganesh ji artwork
 
-Put a **fine line-art** Ganesha in `public/images/`, gold or cocoa on a transparent background, SVG or PNG, about 160×160 px. Then set:
+The cover uses `public/images/ganesha.png`, cropped from your artwork. The full original with the hanging diyas is saved as `ganesha-with-diyas.png`.
+
+The artwork is **tinted with the shloka colour** (`--accent-text`), so it always matches and adapts to dark mode. To use a different image:
+- Save a **transparent** PNG or SVG in `public/images/`.
+- Set `ganeshaArt: '/images/your-file.png'`.
+- Only the shape is used; the colour comes from the CSS.
+
+If the new image isn't tall and narrow like the current one, update `aspect-ratio:360/528` in the `.ganesha-art` rule in `globals.css` to the new image's width/height.
+
+Leave `ganeshaArt` empty to show a small lotus instead.
+
+### Families page
+
+The "Together with their families" card appears right after the countdown:
 
 ```ts
-ganeshaArt: '/images/ganesha.svg',
+families: {
+  kicker: '॥ शुभ विवाह ॥',
+  intro: 'Together with their families',
+  groom: { name: 'Yash', parents: 'S/o Seema & Late Sanjay Trivedi' },
+  bride: { name: 'Pranshu', parents: 'D/o Nilima & Pushkar Raj Jain' },
+  invite: 'Cordially invite you to join the occasion of joyous wedding festivities',
+  when: 'Wednesday, 9 December 2026',
+  where: 'Shri Niketan Marriage Garden, Indore',
+  blessing: 'Your presence and blessings will make our celebration complete.',
+  from: 'With warm regards, the Trivedi & Jain families',
+},
 ```
 
-Leave it empty and a small lotus is shown instead.
+Every line can be edited. To add honorifics, for example, change `parents` to `'S/o Smt. Seema & Late Shri Sanjay Trivedi'`.
+
+On screens wider than 900 px, the hanging diyas from your artwork sway gently on either side of the card. The images are `diyas-left.png` and `diyas-right.png`. They are hidden on phones, where there isn't room.
 
 ### Events
 
@@ -174,7 +201,7 @@ Leave it empty and a small lotus is shown instead.
 | `motif` | Icon: `diya` `marigold` `sangeet` `rings` `toran` `reception` `phere` `lotus` |
 | `dress` | Shows a "Dress code" badge |
 | `note` | Small extra line under the description |
-| `variant` | `'haldi'` = soft yellow card · `'night'` = night-sky card (used for Phere) |
+| `variant` | `'haldi'` = soft yellow card · `'night'` = dark night-sky card (available for a late-night event) |
 
 ### Venue map: use the exact pin
 
@@ -224,7 +251,7 @@ There is also a gentle dark version for phones in dark mode, in the `prefers-col
 | Scratch-foil colours | `src/components/ScratchReveal.tsx` → `FOIL` |
 | How much to scratch before it reveals | `ScratchReveal.tsx` → `REVEAL_AT` (0.5 = half) |
 | Petal colours | `src/lib/fx.ts` → `PETAL_COLOURS` |
-| Petal shower length and intensity | `ScratchReveal.tsx` → `reveal()`; `5200` is milliseconds |
+| Petal shower speed and intensity | `ScratchReveal.tsx` → `reveal()`. `burst(12)` = petals that appear instantly; `5000` = shower length in ms; `await t(550)` / `t(250)` = delay before petals |
 | Fonts | `src/app/layout.tsx` (imports) + `globals.css` (`--serif`, `--sans`, `--script`, `--deva`) |
 
 To swap a font, install it with `npm i @fontsource/<font-name>`. Then import it in `layout.tsx` and update the variable in `globals.css`.
@@ -242,12 +269,14 @@ To add a preview image:
 
 ## 6. The experience, in order
 
-1. **Cover.** The shloka appears, the Y ✦ P seal draws itself, then the names, the tagline and **Enter invitation**.
+1. **Cover.** Ganesh ji and the shloka appear, the Y ✦ P seal draws itself, then the names, the tagline and **Enter invitation**.
 2. **Gatefold opens.** The cover parts and the music begins.
 3. **Scratch card.** Scratch with finger or mouse.
-   - Once half is scratched: the foil dissolves, there is a 0.5 s pause, then one petal, then a gentle shower, gold sparkles and a music swell.
+   - Once half is scratched, the foil dissolves.
+   - Within about a second, petals fade in across the screen and shower down.
+   - Gold sparkles and a music swell follow.
    - "Reveal without scratching" is there for anyone who can't scratch.
-4. **The rest unlocks:** countdown, story, memories, celebrations, venue and finale.
+4. **The rest unlocks:** countdown, families card, story, memories, celebrations, venue and finale.
 5. **Finale.** A last drift of petals, then the page settles.
 
 ---
@@ -278,7 +307,6 @@ To add a preview image:
 
 - [ ] Real photos with real `alt` text
 - [ ] Exact Google Maps pin in `mapsUrl` and `embedUrl`
-- [ ] Ganesha artwork (optional)
 - [ ] Event times confirmed
 - [ ] Tested on an iPhone and an Android phone
 - [ ] Share preview image added (optional)

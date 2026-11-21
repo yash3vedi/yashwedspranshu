@@ -39,8 +39,8 @@ export const wedding = {
   opening: {
     shloka: '॥ श्री गणेशाय नमः ॥',
     tagline: ['A story that began as classmates…', 'and became a lifetime.'],
-    // Fine line-art Ganesha in /public/images, e.g. '/images/ganesha.svg' (~160×160). Empty = lotus.
-    ganeshaArt: '',
+    // Ganesh ji artwork on the cover (transparent PNG/SVG in /public/images). It is tinted to match the shloka. Empty = lotus.
+    ganeshaArt: '/images/ganesha.png',
   },
 
   date: {
@@ -53,6 +53,19 @@ export const wedding = {
     countFoot: 'Until 9 December 2026, 7 PM, in Indore',
     doneMessage: ['Today, we become family.', 'Come celebrate with us.'],
     displayDate: '9 December 2026 · Indore',
+  },
+
+  // "Together with their families" page, shown right after the countdown
+  families: {
+    kicker: '॥ शुभ विवाह ॥',
+    intro: 'Together with their families',
+    groom: { name: 'Yash', parents: 'S/o Seema & Late Sanjay Trivedi' },
+    bride: { name: 'Pranshu', parents: 'D/o Nilima & Pushkar Raj Jain' },
+    invite: 'Cordially invite you to join the occasion of joyous wedding festivities',
+    when: 'Wednesday, 9 December 2026',
+    where: 'Shri Niketan Marriage Garden, Indore',
+    blessing: 'Your presence and blessings will make our celebration complete.',
+    from: 'With warm regards, the Trivedi & Jain families',
   },
 
   story: [
@@ -75,21 +88,17 @@ export const wedding = {
     { src: '', alt: 'Yash and Pranshu', caption: 'Home, in each other.' },
   ] as Photo[],
 
-  celebrationsSub: 'Three days, one garden, all of you.',
+  celebrationsSub: 'Two days, one garden, all of you.',
   days: [
     { num: '8', month: 'December', week: 'Tuesday', events: [
-      { name: 'Ganesh Pooja', time: '10:00 AM', motif: 'diya', desc: 'We begin, as every good thing does, with Ganpati’s blessing.' },
-      { name: 'Haldi Carnival', time: '2:00 PM', motif: 'marigold', desc: 'Turmeric, laughter and a little happy chaos.', dress: 'Yellow', variant: 'haldi' },
+      { name: 'Ganesh Pooja', time: '9:00 AM', motif: 'diya', desc: 'We begin, as every good thing does, with Ganpati’s blessing.' },
+      { name: 'Haldi Carnival', time: '2:30 PM', motif: 'marigold', desc: 'Turmeric, laughter and a little happy chaos.', dress: 'Yellow', variant: 'haldi' },
       { name: 'Sangeet', time: '7:00 PM', motif: 'sangeet', desc: 'An evening of songs, dances and everyone’s secret rehearsals.' },
     ]},
     { num: '9', month: 'December', week: 'Wednesday, the wedding day', events: [
       { name: 'Engagement', time: '11:00 AM', motif: 'rings', desc: 'Two rings, one promise, and all of you watching.' },
       { name: 'Baraat', time: '4:00 PM', motif: 'toran', desc: 'The groom arrives, with the whole procession dancing.' },
       { name: 'Reception', time: '7:00 PM', motif: 'reception', desc: 'The evening we celebrate with everyone we love.' },
-    ]},
-    { num: '10', month: 'December', week: 'The small hours of the wedding night', events: [
-      { name: 'Phere', time: '2:00 AM', motif: 'phere', desc: 'Seven rounds around the sacred fire, under the late-night sky.',
-        note: 'Just after midnight, as the 9 December celebrations continue.', variant: 'night' },
     ]},
   ] as Day[],
 

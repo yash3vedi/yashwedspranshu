@@ -11,6 +11,7 @@ import { Navigation } from './Navigation';
 import { MusicController } from './MusicController';
 import { ScratchReveal } from './ScratchReveal';
 import { Countdown } from './Countdown';
+import { FamiliesSection } from './FamiliesSection';
 import { StoryTimeline } from './StoryTimeline';
 import { PhotoGallery } from './PhotoGallery';
 import { EventTimeline } from './EventTimeline';
@@ -79,6 +80,7 @@ export function Invitation() {
         {revealed && (
           <div ref={rest}>
             <Countdown />
+            <FamiliesSection />
             <StoryTimeline />
             <PhotoGallery />
             <EventTimeline />

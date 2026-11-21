@@ -1,7 +1,7 @@
 /* PetalSystem + ParticleSystem — one shared canvas, idles itself when empty. */
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
-type Petal = { x: number; y: number; s: number; vy: number; vx: number; sw: number; ph: number; phs: number; rot: number; vr: number; fl: number; fls: number; a: number; sp: HTMLCanvasElement };
+type Petal = { age: number; x: number; y: number; s: number; vy: number; vx: number; sw: number; ph: number; phs: number; rot: number; vr: number; fl: number; fls: number; a: number; sp: HTMLCanvasElement };
 type Mote = { x: number; y: number; r: number; vx: number; vy: number; t: number; ttl: number; tw: number; c: string };
 type Emitter = { kind: 'petal' | 'mote'; dur: number; rate: (p: number) => number; start: number; acc: number; up?: boolean; y?: () => number };
 
@@ -30,10 +30,10 @@ export class FX {
   }
   destroy() { removeEventListener('resize', this.resize); this.emitters = []; this.petals = []; this.motes = []; }
   private resize() { this.dpr = Math.min(devicePixelRatio || 1, 2); this.W = innerWidth; this.H = innerHeight; this.cv.width = this.W * this.dpr | 0; this.cv.height = this.H * this.dpr | 0; }
-  private petal(first = false) {
+  private petal(first = false, inView = false) {
     if (this.petals.length > 70) return;
     const s = rand(11, this.W < 600 ? 19 : 24);
-    this.petals.push({ x: first ? this.W * rand(.35, .65) : rand(-20, this.W + 20), y: rand(-60, -20), s, vy: rand(32, 62) * (s / 18), vx: rand(-10, 14), sw: rand(12, 34), ph: rand(0, 6.3), phs: rand(.5, 1.2),
+    this.petals.push({ age: inView ? 0 : 1, x: first ? this.W * rand(.35, .65) : rand(-20, this.W + 20), y: inView ? rand(-20, this.H * .45) : first ? rand(-10, 30) : rand(-40, -15), s, vy: rand(32, 62) * (s / 18), vx: rand(-10, 14), sw: rand(12, 34), ph: rand(0, 6.3), phs: rand(.5, 1.2),
       rot: rand(0, 6.3), vr: rand(-1, 1), fl: rand(0, 6.3), fls: rand(1.2, 2.8), a: rand(.6, .95), sp: this.sprites[Math.random() * this.sprites.length | 0] });
   }
   private mote(x?: number, y?: number, up?: boolean) {
@@ -51,11 +51,11 @@ export class FX {
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, this.cv.width, this.cv.height);
     for (let i = this.petals.length - 1; i >= 0; i--) {
-      const p = this.petals[i]; p.ph += p.phs * dt; p.fl += p.fls * dt; p.rot += p.vr * dt;
+      const p = this.petals[i]; p.age += dt; p.ph += p.phs * dt; p.fl += p.fls * dt; p.rot += p.vr * dt;
       p.y += p.vy * dt; p.x += (p.vx + Math.sin(p.ph) * p.sw) * dt;
       if (p.y > H + 40) { this.petals.splice(i, 1); continue; }
       const sx = .3 + .7 * Math.abs(Math.cos(p.fl)), c = Math.cos(p.rot), s = Math.sin(p.rot);
-      ctx.globalAlpha = p.a * Math.min(1, (H + 40 - p.y) / 120);
+      ctx.globalAlpha = p.a * Math.min(1, (H + 40 - p.y) / 120) * Math.min(1, p.age / .5);
       ctx.setTransform(c * sx * dpr, s * sx * dpr, -s * dpr, c * dpr, p.x * dpr, p.y * dpr);
       ctx.drawImage(p.sp, -p.s / 2, -p.s * .56, p.s, p.s * 1.12);
     }
@@ -78,6 +78,8 @@ export class FX {
   emit(kind: 'petal' | 'mote', dur: number, rate: (p: number) => number, opts: { up?: boolean; y?: () => number } = {}) {
     if (this.reduced) return; this.emitters.push({ kind, dur, rate, start: performance.now(), acc: 0, ...opts }); this.go();
   }
+  /** Petals that fade in already spread across the top of the screen — no waiting for them to fall in. */
+  burst(n: number) { if (this.reduced) return; for (let i = 0; i < n; i++) this.petal(false, true); this.go(); }
   firstPetal() { if (this.reduced) return; this.petal(true); this.go(); }
   sparkle(x: number, y: number, n: number) { if (this.reduced) return; for (let i = 0; i < n; i++) this.mote(x + rand(-90, 90), y + rand(-110, 110)); this.go(); }
   stopMotes() { this.emitters = this.emitters.filter(e => e.kind !== 'mote'); }
