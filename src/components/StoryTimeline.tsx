@@ -75,8 +75,9 @@ export function StoryTimeline() {
       </header>
       <div className="story-track" ref={track}>
         <div className="thread" aria-hidden="true"><b ref={fill} /></div>
-        <div>{wedding.story.map((ch, i) => <ChapterView key={i} ch={ch} n={String(i + 1).padStart(2, '0')} />)}</div>
+        <div>{wedding.story.map((ch, i) => !ch.final && <ChapterView key={i} ch={ch} n={String(i + 1).padStart(2, '0')} />)}</div>
       </div>
+      {wedding.story.map((ch, i) => ch.final && <ChapterView key={i} ch={ch} n={String(i + 1).padStart(2, '0')} />)}
     </section>
   );
 }
