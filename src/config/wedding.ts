@@ -82,11 +82,9 @@ export const wedding = {
   // Put photos in /public/images. Recommended 1200×1500 (4:5), JPG/WebP, < 350 KB.
   // Example: { src: '/images/photo-1.jpg', alt: 'Yash and Pranshu at…', caption: '…' }
   photos: [
-    { src: '', alt: 'Yash and Pranshu', caption: 'Somewhere between then and now.' },
-    { src: '', alt: 'Yash and Pranshu', caption: 'Ten years. One beautiful story.' },
-    { src: '', alt: 'Yash and Pranshu', caption: 'Still choosing each other.' },
-    { src: '', alt: 'Yash and Pranshu', caption: 'Home, in each other.' },
-  ] as Photo[],
+  { src: '/images/0A7A8192.JPG', alt: 'Yash and Pranshu sitting together under a tree, holding hands and smiling at each other', caption: 'Still smiling at the same jokes.' },
+  { src: '/images/19.jpg', alt: 'Yash and Pranshu in white, foreheads touching, on old stone steps', caption: 'Home, in each other.' },
+] as Photo[],
 
   celebrationsSub: 'Two days, one garden, all of you.',
   days: [
